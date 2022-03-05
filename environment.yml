@@ -2,7 +2,7 @@ name: sage
 channels:
   - conda-forge
 dependencies:
-  - sagemath
+  - sage
   # - numpy
   # - psutil
   # - toolz
