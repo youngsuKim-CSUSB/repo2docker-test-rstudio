@@ -26,13 +26,13 @@ RUN apt-get update --yes && \
     unixodbc \
     unixodbc-dev \
     r-cran-rodbc \
-    r-cran-irkernel && \
+    r-cran-irkernel \
+    r-cran-rmarkdown && \
     apt install --no-install-recommends software-properties-common dirmngr --yes && \
     wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
     add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
     apt install --yes \
-    r-base \
-    r-cran-rmarkdown && \
+    r-base && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     apt-get update --yes && \
     pip install git+https://github.com/jupyterhub/jupyter-rsession-proxy.git jupyter-server-proxy && \
