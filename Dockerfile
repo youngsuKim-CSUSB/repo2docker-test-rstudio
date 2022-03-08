@@ -19,6 +19,11 @@ USER root
 # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
     # add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
+# From https://stackoverflow.com/questions/45289764/install-r-packages-using-docker-file
+# RUN R -e "install.packages(c('methods', 'jsonlite', 'tseries'),
+#                            dependencies=TRUE, 
+#                            repos='http://cran.rstudio.com/')"
+
 # R pre-requisites
 RUN apt-get update --yes && \
     apt install --yes \
@@ -26,14 +31,15 @@ RUN apt-get update --yes && \
     unixodbc \
     unixodbc-dev \
     r-cran-rodbc \
-    r-cran-irkernel \
-    r-cran-rmarkdown && \
+    r-cran-irkernel && \
+    # r-cran-rmarkdown && \ 
     apt install --no-install-recommends software-properties-common dirmngr --yes && \
     wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
     add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
     apt install --yes \
     r-base && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    R -e "install.packages(c('rmarkdown'), dependencies=TRUE, repos='http://cran.rstudio.com/')" && \
     apt-get update --yes && \
     pip install git+https://github.com/jupyterhub/jupyter-rsession-proxy.git jupyter-server-proxy && \
     jupyter labextension install @jupyterlab/server-proxy
